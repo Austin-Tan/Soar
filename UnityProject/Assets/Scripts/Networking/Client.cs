@@ -19,6 +19,7 @@ public class Client : MonoBehaviour
     private delegate void PacketHandler(Packet _packet);
     private static Dictionary<int, PacketHandler> packetHandlers;
 
+    // Singleton initializer
     private void Awake() {
         if (instance == null) {
             instance = this;
