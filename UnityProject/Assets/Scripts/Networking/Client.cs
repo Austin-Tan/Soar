@@ -84,8 +84,8 @@ public class Client : MonoBehaviour
 
                 HandleData(_data);
             }
-            catch (Exception ex) {
-                
+            catch (Exception _ex) {
+                Debug.Log($"Error in UDP ReceiveCallback: {_ex}");
             }
         }
 
@@ -207,6 +207,7 @@ public class Client : MonoBehaviour
     private void InitializeClientData() {
         packetHandlers = new Dictionary<int, PacketHandler>() {
             { (int) ServerPackets.welcome, ClientHandle.Welcome},
+            { (int) ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer},
             { (int) ServerPackets.udpTest, ClientHandle.UDPTest}
         };
         Debug.Log("Initialized packets.");

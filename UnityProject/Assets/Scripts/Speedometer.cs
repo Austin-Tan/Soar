@@ -7,7 +7,7 @@ public class Speedometer : MonoBehaviour
 {
     private RectTransform needle;
     private Text reading;
-    private Movement playerMovement;
+    private PlayerController playerController;
 
     private const float MIN_ANGLE = 0;
     public float MAX_ANGLE = -270;
@@ -20,13 +20,13 @@ public class Speedometer : MonoBehaviour
         needle = this.transform.Find("Needle").GetComponent<RectTransform>();
         reading = this.transform.GetComponentInChildren<Text>();
         
-        playerMovement = GameObject.FindWithTag("Player").GetComponent<Movement>();
+        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float speed = playerMovement.Speed;
+        float speed = playerController.Speed;
         needle.eulerAngles = new Vector3(0, 0, speed * -5);
         reading.text = ((int) speed).ToString();
     }

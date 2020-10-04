@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Numerics;
+using UnityEngine;
 
 /// <summary>Sent from server to client.</summary>
 public enum ServerPackets
@@ -166,19 +166,19 @@ public class Packet : IDisposable
     /// <param name="_value">The Vector3 to add.</param>
     public void Write(Vector3 _value)
     {
-        Write(_value.X);
-        Write(_value.Y);
-        Write(_value.Z);
+        Write(_value.x);
+        Write(_value.y);
+        Write(_value.z);
     }        
     
     /// <summary>Adds a Quaternion to the packet.</summary>
     /// <param name="_value">The Quaternionto add.</param>
     public void Write(Quaternion _value)
     {
-        Write(_value.X);
-        Write(_value.Y);
-        Write(_value.Z);
-        Write(_value.W);
+        Write(_value.x);
+        Write(_value.y);
+        Write(_value.z);
+        Write(_value.w);
     }
     #endregion
 
@@ -350,6 +350,20 @@ public class Packet : IDisposable
         {
             throw new Exception("Could not read value of type 'string'!");
         }
+    }
+
+    /// <summary>Reads a Vector3 from the packet.</summary>
+    /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+    public Vector3 ReadVector3(bool _moveReadPos = true)
+    {
+        return new Vector3(ReadFloat(_moveReadPos), ReadFloat(_moveReadPos), ReadFloat(_moveReadPos));
+    }
+
+    /// <summary>Reads a Quaternion from the packet.</summary>
+    /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+    public Quaternion ReadQuaternion(bool _moveReadPos = true)
+    {
+        return new Quaternion(ReadFloat(_moveReadPos), ReadFloat(_moveReadPos), ReadFloat(_moveReadPos), ReadFloat(_moveReadPos));
     }
     #endregion
 
