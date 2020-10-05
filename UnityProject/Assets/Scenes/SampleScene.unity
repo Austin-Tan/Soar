@@ -2381,7 +2381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startMenu: {fileID: 1577501164}
-  speedometer: {fileID: 0}
+  speedometer: {fileID: 52591091}
   usernameField: {fileID: 1241219706}
 --- !u!1 &409108717
 GameObject:

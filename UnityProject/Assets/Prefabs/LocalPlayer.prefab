@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b67c860304440f498c87927821d7615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ACCELFACTOR: 800
+  ACCELFACTOR: 900
   Speed: 0
-  MaxSpeed: 0
+  MaxSpeed: 15
   Grounded: 0
 --- !u!58 &2417219780209206105
 CircleCollider2D:

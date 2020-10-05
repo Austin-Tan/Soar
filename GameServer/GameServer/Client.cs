@@ -177,6 +177,7 @@ namespace GameServer
         {
             player = new Player(id, _playerName, new Vector3(0, 0, 0));
 
+            // tell this client (current id) about every other player in the game.
             foreach (Client _client in Server.clients.Values)
             {
                 if (_client.player != null)
@@ -188,6 +189,7 @@ namespace GameServer
                 }
             }
 
+            // for every other client, tell them about this new player.
             foreach (Client _client in Server.clients.Values)
             {
                 if (_client.player != null)

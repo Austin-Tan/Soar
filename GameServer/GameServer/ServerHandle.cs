@@ -16,6 +16,8 @@ namespace GameServer
             {
                 Console.WriteLine($"CRITICAL ERROR: Player \"{_username}\" ID: {_fromClient} has assumed the wrong client ID: {_clientIdCheck}");
             }
+            
+            // use TCP to send this client into game, tell them about everyone else, and tell everyone else about them.
             Server.clients[_fromClient].SendIntoGame(_username);
         }
 

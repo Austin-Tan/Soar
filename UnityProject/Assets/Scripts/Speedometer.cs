@@ -20,14 +20,14 @@ public class Speedometer : MonoBehaviour
         needle = this.transform.Find("Needle").GetComponent<RectTransform>();
         reading = this.transform.GetComponentInChildren<Text>();
         
-        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        // playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float speed = playerController.Speed;
-        needle.eulerAngles = new Vector3(0, 0, speed * -5);
-        reading.text = ((int) speed).ToString();
+        // float speed = playerController.Speed;
+        // needle.eulerAngles = new Vector3(0, 0, speed * -5);
+        // reading.text = ((int) speed).ToString();
     }
 }

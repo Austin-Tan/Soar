@@ -31,6 +31,7 @@ public class ClientHandle : MonoBehaviour
         Vector3 _position = _packet.ReadVector3();
         Quaternion _rotation = _packet.ReadQuaternion();
 
+        Debug.Log($"SpawnPlayer packet received, now spawning player {_id}.");
         GameManager.instance.SpawnPlayer(_id, _username, _position, _rotation);
     }
 }

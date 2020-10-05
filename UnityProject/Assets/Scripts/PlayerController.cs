@@ -4,6 +4,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private void FixedUpdate() {
+        SendInputToServer();
+    }
+
+    private void SendInputToServer() {
+        // if we transition to joy-stick based movements, let's make these
+        // floats instead 
+        bool[] _inputs = new bool[] {
+            Input.GetKey(KeyCode.Space),
+            Input.GetKey(KeyCode.W),
+            Input.GetKey(KeyCode.S),
+            Input.GetKey(KeyCode.A),
+            Input.GetKey(KeyCode.D)
+        }
+        
+        ClientSend.PlayerMovement(_inputs);
+    }
+
     public int ACCELFACTOR;
     private Rigidbody2D rb;
     public float Speed;
