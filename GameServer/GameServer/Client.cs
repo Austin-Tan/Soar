@@ -50,7 +50,6 @@ namespace GameServer
                 receiveBuffer = new byte[dataBufferSize];
                 stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
 
-                // TODO: send welcome packet
                 ServerSend.Welcome(id, "Welcome to the server! You are player " + id);
             }
 
@@ -88,6 +87,7 @@ namespace GameServer
                 } catch (Exception ex)
                 {
                     Console.WriteLine($"Error receiving TCP data: {ex}");
+                    // need to disconnect here too
                 }
             }
             private bool HandleData(byte[] _data)

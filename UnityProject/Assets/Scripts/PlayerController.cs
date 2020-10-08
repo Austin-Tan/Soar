@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
             Input.GetKey(KeyCode.S),
             Input.GetKey(KeyCode.A),
             Input.GetKey(KeyCode.D)
-        }
+        };
         
         ClientSend.PlayerMovement(_inputs);
     }
@@ -33,28 +33,28 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = this.gameObject.GetComponent<Rigidbody2D>();
-        rb.freezeRotation = true;
+        // rb = this.gameObject.GetComponent<Rigidbody2D>();
+        // rb.freezeRotation = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float vertAccel = ACCELFACTOR * Input.GetAxis("Vertical") * Time.deltaTime;
-        float horizAccel = ACCELFACTOR * Input.GetAxis("Horizontal") * Time.deltaTime;
+        // float vertAccel = ACCELFACTOR * Input.GetAxis("Vertical") * Time.deltaTime;
+        // float horizAccel = ACCELFACTOR * Input.GetAxis("Horizontal") * Time.deltaTime;
 
-        rb.AddForce(new Vector2(horizAccel, vertAccel));
+        // rb.AddForce(new Vector2(horizAccel, vertAccel));
 
-        if (Input.GetKey(KeyCode.Space)) {
-            rb.AddForce(new Vector2(0.5f, -1) * (ACCELFACTOR * Time.deltaTime));
-        }
+        // if (Input.GetKey(KeyCode.Space)) {
+        //     rb.AddForce(new Vector2(0.5f, -1) * (ACCELFACTOR * Time.deltaTime));
+        // }
         
-        if (Mathf.Abs(rb.velocity.x) > MaxSpeed) {
-            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * MaxSpeed, rb.velocity.y);
-        }
+        // if (Mathf.Abs(rb.velocity.x) > MaxSpeed) {
+        //     rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * MaxSpeed, rb.velocity.y);
+        // }
         
 
-        this.Speed = GetSpeed(rb.velocity);
+        // this.Speed = GetSpeed(rb.velocity);
     }
 
     public static float GetSpeed(Vector2 velocity) {

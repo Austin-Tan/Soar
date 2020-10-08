@@ -29,21 +29,21 @@ namespace GameServer
 
             tcpListener = new TcpListener(IPAddress.Any, Port);
             tcpListener.Start();
-            tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallback), null);
+            tcpListener.BeginAcceptTcpClient(TCPConnectCallback, null);
 
             udpListener = new UdpClient(Port);
             udpListener.BeginReceive(UDPReceiveCallback, null);
 
-            Console.WriteLine($"Server started on {Port}.");
+            Console.WriteLine($"Server started on port {Port}.");
         }
 
         private static void TCPConnectCallback(IAsyncResult _result)
         {
             TcpClient _client = tcpListener.EndAcceptTcpClient(_result);
-            tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallback), null);
+            tcpListener.BeginAcceptTcpClient(TCPConnectCallback, null);
 
             Console.WriteLine($"Incoming connection from {_client.Client.RemoteEndPoint}...");
-            for (int i = 1; i < MaxPlayers; i++)
+            for (int i = 0; i < MaxPlayers; i++)
             {
                 if (clients[i].tcp.socket == null)
                 {
@@ -72,9 +72,9 @@ namespace GameServer
                 {
                     int _clientId = _packet.ReadInt();
 
-                    // youtuber has it just == 0, we might want to zero-index after
-                    if (_clientId < 1 || _clientId >= MaxPlayers)
+                    if (_clientId < 0 || _clientId >= MaxPlayers)
                     {
+                        Console.WriteLine($"Packet intended for player {_clientId} out of range of players.");
                         return;
                     }
 
@@ -106,7 +106,8 @@ namespace GameServer
                     udpListener.BeginSend(_packet.ToArray(), _packet.Length(), _clientEndPoint, null, null);
                 } else
                 {
-                    Console.WriteLine($"Error: ClientEndPoint was null on attempted UDP send of packet: {_packet}");
+                    // int packEnum = _packet.ReadInt(false);
+                    // Console.WriteLine($"Error: ClientEndPoint was null on attempted UDP send of packet: {(ServerPackets) packEnum}");
                 }
             } catch (Exception _ex)
             {
@@ -116,14 +117,16 @@ namespace GameServer
 
         private static void InitializeServerData()
         {
-            for (int i = 1; i < MaxPlayers; i++)
+            for (int i = 0; i < MaxPlayers; i++)
             {
                 clients.Add(i, new Client(i));
             }
 
             packetHandlers = new Dictionary<int, PacketHandler>()
             {
-                { (int) ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived }
+                { (int) ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived },
+                { (int) ClientPackets.playerMovement, ServerHandle.PlayerMovement },
+                { (int) ClientPackets.udpTestReceived, ServerHandle.UDPTestReceived }
             };
             Console.WriteLine("Initialized packet handlers.");
         }

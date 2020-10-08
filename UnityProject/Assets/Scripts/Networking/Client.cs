@@ -54,7 +54,7 @@ public class Client : MonoBehaviour
             socket.Connect(endPoint);
             socket.BeginReceive(ReceiveCallback, null);
 
-            using (Packet _packet = new Packet()) {
+            using (Packet _packet = new Packet((int) ClientPackets.udpTestReceived)) {
                 SendData(_packet);
             }
         }
@@ -208,6 +208,7 @@ public class Client : MonoBehaviour
         packetHandlers = new Dictionary<int, PacketHandler>() {
             { (int) ServerPackets.welcome, ClientHandle.Welcome},
             { (int) ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer},
+            { (int) ServerPackets.playerPosition, ClientHandle.PlayerPosition},
             { (int) ServerPackets.udpTest, ClientHandle.UDPTest}
         };
         Debug.Log("Initialized packets.");
