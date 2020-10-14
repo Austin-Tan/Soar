@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    // maps id to their playermanager, my guess is there will be duplicates which is an issue
     public static Dictionary<int, PlayerManager> players = new Dictionary<int, PlayerManager>();
 
     public GameObject localPlayerPrefab;
@@ -33,6 +34,18 @@ public class GameManager : MonoBehaviour
         _player.GetComponent<PlayerManager>().id = _id;
         _player.GetComponent<PlayerManager>().username = _username;
         players.Add(_id, _player.GetComponent<PlayerManager>());
+        Debug.Log($"Spawning P{_id} \"{_username}\"...");
+    }
+
+    public void RemovePlayer (int _id) {
+        Debug.Log($"Destructing player {_id}...");
+        PlayerManager toRemove = players[_id];
+        toRemove.SelfDestruct();
+        
+        bool found = players.Remove(_id);
+        if (!found) {
+            Debug.LogError($"Could not find player {_id} in GameManager dictionary to remove.");
+        }
     }
 
 }
