@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     public GameObject startMenu;
-    public GameObject speedometer;
+    public GameObject HUD;
     public InputField usernameField;
 
     private void Awake() {
@@ -25,6 +25,6 @@ public class UIManager : MonoBehaviour
         startMenu.SetActive(false);
         usernameField.interactable = false;
         Client.instance.ConnectToServer();
-        speedometer.SetActive(true);
+        HUD.SetActive(true);
     }
 }
