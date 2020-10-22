@@ -238,13 +238,14 @@ public class Client : MonoBehaviour
             { (int) ServerPackets.welcome, ClientHandle.Welcome},
             { (int) ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer},
             { (int) ServerPackets.playerPosition, ClientHandle.PlayerPosition},
+            { (int) ServerPackets.removePlayer, ClientHandle.RemovePlayer},
             { (int) ServerPackets.udpTest, ClientHandle.UDPTest}
         };
         Debug.Log("Initialized packets.");
     }
 
     private void Disconnect() {
-        if (isConnected) {
+        if (isConnected) { 
             isConnected = false;
             tcp.socket.Close();
             udp.socket.Close();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace GameServer
@@ -78,6 +79,16 @@ namespace GameServer
                 _packet.Write(_player.rotation);
 
                 SendTCPData(_toClient, _packet);
+            }
+        }
+
+        public static void RemovePlayer(int _clientToRemove)
+        {
+            using (Packet _packet = new Packet((int) ServerPackets.removePlayer))
+            {
+                Console.WriteLine($"Sending packet to remove P{_clientToRemove} to all other players...");
+                _packet.Write(_clientToRemove);
+                SendTCPDataToAll(_clientToRemove, _packet);
             }
         }
 

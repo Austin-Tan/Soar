@@ -22,7 +22,11 @@ public class ClientHandle : MonoBehaviour
         int _id = _packet.ReadInt();
         Vector3 _position = _packet.ReadVector3();
 
-        Debug.Log($"Update from player {_id} on position: {_position}");
+        // Debug.Log($"Update from player {_id} on position: {_position}");
+        if (!GameManager.players.ContainsKey(_id)) {
+            Debug.LogError($"Erroneously received position packet for player {_id} who does not exist.");
+            return;
+        }
         GameManager.players[_id].transform.position = _position;
     }
 
@@ -41,5 +45,11 @@ public class ClientHandle : MonoBehaviour
 
         Debug.Log($"SpawnPlayer packet received, now spawning player {_id}.");
         GameManager.instance.SpawnPlayer(_id, _username, _position, _rotation);
+    }
+
+    public static void RemovePlayer(Packet _packet) {
+        int _id = _packet.ReadInt();
+
+        GameManager.instance.RemovePlayer(_id);
     }
 }

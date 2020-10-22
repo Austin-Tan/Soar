@@ -12,6 +12,7 @@ namespace GameServer
         spawnPlayer,
         playerPosition,
         playerRotation,
+        removePlayer,
         udpTest
     }
 

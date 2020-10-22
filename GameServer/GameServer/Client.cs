@@ -217,12 +217,17 @@ namespace GameServer
     
         private void Disconnect()
         {
-            Console.WriteLine($"{tcp.socket.Client.RemoteEndPoint} ({this.player.username}) has disconnected.");
+            // sometimes this method will be called multiple times for one disconnection, in which case we can't access player anymore
+            if (player != null)
+            {
+                Console.WriteLine($"{tcp.socket.Client.RemoteEndPoint} ({this.player.username}) has disconnected.");
+            }
 
             player = null;
 
             tcp.Disconnect();
             udp.Disconnect();
+            ServerSend.RemovePlayer(this.id);
         }
     }
 }
