@@ -23,6 +23,10 @@ public class ClientHandle : MonoBehaviour
         Vector3 _position = _packet.ReadVector3();
 
         // Debug.Log($"Update from player {_id} on position: {_position}");
+        if (!GameManager.players.ContainsKey(_id)) {
+            Debug.LogError($"Erroneously received position packet for player {_id} who does not exist.");
+            return;
+        }
         GameManager.players[_id].transform.position = _position;
     }
 
