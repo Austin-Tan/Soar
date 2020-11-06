@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
 
         _player.GetComponent<PlayerManager>().id = _id;
         _player.GetComponent<PlayerManager>().username = _username;
+        _player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         players.Add(_id, _player.GetComponent<PlayerManager>());
         Debug.Log($"Spawning P{_id} \"{_username}\"...");
     }

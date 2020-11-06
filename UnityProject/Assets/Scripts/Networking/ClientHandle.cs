@@ -30,6 +30,22 @@ public class ClientHandle : MonoBehaviour
         GameManager.players[_id].transform.position = _position;
     }
 
+    public static void PlayerVelocity(Packet _packet) {
+        int _id = _packet.ReadInt();
+        Vector2 _velocity = _packet.ReadVector2();
+
+        // Debug.Log($"Update from player {_id} on position: {_position}");
+        if (!GameManager.players.ContainsKey(_id)) {
+            Debug.LogError($"Erroneously received position packet for player {_id} who does not exist.");
+            return;
+        }
+        Rigidbody2D _rb2d = GameManager.players[_id].GetComponent<Rigidbody2D>();
+        if (_rb2d == null) {
+            Debug.LogError($"Rigidbody2d is null for player {_id}: {GameManager.players[_id].username}.");
+        }
+        _rb2d.velocity = _velocity;
+    }
+
     public static void UDPTest(Packet _packet) {
         string _msg = _packet.ReadString();
 

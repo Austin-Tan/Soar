@@ -11,9 +11,17 @@ namespace GameServer
         public string username;
 
         public Vector3 position;
+        public Vector2 velocity;
         public Quaternion rotation;
 
-        private static float baseSpeed = 5f;
+        // It'd be better to handle this outside of player, otherwise each player is tracking position increments.
+        // Should increase if collision behavior is funky.
+        public const int PositionPacketIncrements = 8;
+        private int packetCounter = 0;
+
+
+        public float MaxSpeed = 15f;
+        private static float baseSpeed = 1f;
         private float moveSpeed = baseSpeed / Constants.TICKS_PER_SEC;
         private bool[] inputs;
 
@@ -22,6 +30,7 @@ namespace GameServer
             id = _id;
             username = _username;
             position = _spawnPosition;
+            velocity = new Vector2(0, 0);
             rotation = Quaternion.Identity;
 
             inputs = new bool[5];
@@ -51,22 +60,49 @@ namespace GameServer
             Move(_inputDirection);
         }
 
+        private const float _drag = 0.98f;
+        //private const float _minSpeed = 0.1f;
+        private void ApplyDrag()
+        {
+            velocity.X *= _drag;
+            velocity.Y *= _drag;
+            //if (velocity.X < _minSpeed)
+            //{
+            //    velocity.X = 0;
+            //}
+            //if (velocity.Y < _minSpeed)
+            //{
+            //    velocity.Y = 0;
+            //}
+        }
+
         // we are client-authorative on rotation, we let clients tell us
         // exactly what they are rotated.
         private void Move(Vector2 _inputDirection)
         {
-            position.X += _inputDirection.X * moveSpeed;
-            position.Y += _inputDirection.Y * moveSpeed;
+            velocity.X += _inputDirection.X * moveSpeed;
+            velocity.Y += _inputDirection.Y * moveSpeed;
 
+            if (velocity.X > MaxSpeed)
+            {
+                velocity.X = MaxSpeed;
+            }
+            if (velocity.Y > MaxSpeed)
+            {
+                velocity.Y = MaxSpeed;
+            }
 
-            // Vector3 _forward = Vector3.Transform(new Vector3(0, 0, 1), rotation);
-            // Vector3 _right = Vector3.Normalize(Vector3.Cross(_forward, new Vector3(0, 1, 0)));
+            position.X += velocity.X;
+            position.Y += velocity.Y;
+            ApplyDrag();
+            ServerSend.PlayerVelocity(this);
 
-            // Vector3 _moveDirection = _right * _inputDirection.X + _forward * _inputDirection.Y;
-            // position += _moveDirection * moveSpeed;
-
+            //packetCounter++;
+            //if (packetCounter == PositionPacketIncrements)
+            //{
             ServerSend.PlayerPosition(this);
-            // ServerSend.PlayerRotation(this);
+            //    packetCounter = 0;
+            //}
         }
 
         public void SetInput(bool[] _inputs, Quaternion _rotation)

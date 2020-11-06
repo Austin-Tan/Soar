@@ -92,6 +92,17 @@ namespace GameServer
             }
         }
 
+        public static void PlayerVelocity(Player _player)
+        {
+            using (Packet _packet = new Packet((int)ServerPackets.playerVelocity))
+            {
+                _packet.Write(_player.id);
+                _packet.Write(_player.velocity);
+
+                SendUDPDataToAll(_packet);
+            }
+        }
+
         public static void PlayerPosition(Player _player)
         {
             using (Packet _packet = new Packet((int) ServerPackets.playerPosition))

@@ -9,6 +9,7 @@ public enum ServerPackets
     welcome = 1,
     spawnPlayer,
     playerPosition,
+    playerVelocity,
     playerRotation,
     removePlayer,
     udpTest
@@ -351,6 +352,13 @@ public class Packet : IDisposable
         {
             throw new Exception("Could not read value of type 'string'!");
         }
+    }
+
+    /// <summary>Reads a Vector2 from the packet.</summary>
+    /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+    public Vector2 ReadVector2(bool _moveReadPos = true)
+    {
+        return new Vector2(ReadFloat(_moveReadPos), ReadFloat(_moveReadPos));
     }
 
     /// <summary>Reads a Vector3 from the packet.</summary>

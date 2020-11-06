@@ -237,6 +237,7 @@ public class Client : MonoBehaviour
         packetHandlers = new Dictionary<int, PacketHandler>() {
             { (int) ServerPackets.welcome, ClientHandle.Welcome},
             { (int) ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer},
+            { (int) ServerPackets.playerVelocity, ClientHandle.PlayerVelocity},
             { (int) ServerPackets.playerPosition, ClientHandle.PlayerPosition},
             { (int) ServerPackets.removePlayer, ClientHandle.RemovePlayer},
             { (int) ServerPackets.udpTest, ClientHandle.UDPTest}
