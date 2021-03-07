@@ -19,8 +19,7 @@ namespace GameServer
         public delegate void PacketHandler(int _fromClient, Packet _packet);
         public static Dictionary<int, PacketHandler> packetHandlers;
 
-        public static void Start(int _maxPlayers, int _port)
-        {
+        public static void Start(int _maxPlayers, int _port) {
             MaxPlayers = _maxPlayers;
             Port = _port;
 
