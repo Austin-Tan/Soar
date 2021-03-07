@@ -59,6 +59,7 @@ public class Client : MonoBehaviour
         }
 
         public void Connect(int _localPort) {
+            Debug.Log("Connecting UDP on port " + _localPort);
             socket = new UdpClient(_localPort);
 
             socket.Connect(endPoint);
@@ -135,7 +136,7 @@ public class Client : MonoBehaviour
                 ReceiveBufferSize = dataBufferSize,
                 SendBufferSize = dataBufferSize
             };
-
+            Debug.Log("Connecting TCP on port " + instance.port);
             receiveBuffer = new byte[dataBufferSize];
             socket.BeginConnect(instance.ip, instance.port, ConnectCallback, socket);
         }
